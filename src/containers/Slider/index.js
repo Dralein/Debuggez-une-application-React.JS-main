@@ -12,28 +12,13 @@ const Slider = () => {
   );
 
   useEffect(() => {
-    if (byDateDesc) {
-      const timer = setTimeout(() => {
-        setIndex(prevIndex => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
-      }, 5000);
-      
-      return () => clearTimeout(timer);
-    }
-
-    return () => {};
-  }, [index, byDateDesc]);
-  useEffect(() => {
-  if (byDateDesc) {
-    const timer = setTimeout(() => {
+    const sliderInterval = setInterval(() => {
       setIndex(prevIndex => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
     }, 5000);
     
-    return () => clearTimeout(timer);
-  }
-  
-  // Ajoutez un return explicite pour renvoyer une fonction vide lorsque byDateDesc est undefined
-  return () => {};
-}, [index, byDateDesc]);
+    return () => clearInterval(sliderInterval);
+  }, [byDateDesc]);
+
   const handlePaginationClick = (idx) => {
     setIndex(idx);
   };
@@ -41,7 +26,7 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <div key={event.title} className={`SlideCard SlideCard--${index === idx ? "display" : "hide"}`}>
+        <div key={event.title} className={`SlideCard SlideCard--${idx === index ? "display" : "hide"}`}>
           <img src={event.cover} alt="forum" />
           <div className="SlideCard__descriptionContainer">
             <div className="SlideCard__description">
