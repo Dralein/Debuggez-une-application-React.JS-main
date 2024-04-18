@@ -12,13 +12,28 @@ const Slider = () => {
   );
 
   useEffect(() => {
+    if (byDateDesc) {
+      const timer = setTimeout(() => {
+        setIndex(prevIndex => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+
+    return () => {};
+  }, [index, byDateDesc]);
+  useEffect(() => {
+  if (byDateDesc) {
     const timer = setTimeout(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % byDateDesc.length);
+      setIndex(prevIndex => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
     }, 5000);
-
+    
     return () => clearTimeout(timer);
-  }, [index]); // Déclencher l'effet uniquement lorsque l'index change
-
+  }
+  
+  // Ajoutez un return explicite pour renvoyer une fonction vide lorsque byDateDesc est undefined
+  return () => {};
+}, [index, byDateDesc]);
   const handlePaginationClick = (idx) => {
     setIndex(idx);
   };
